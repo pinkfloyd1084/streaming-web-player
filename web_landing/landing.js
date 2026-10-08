@@ -26,24 +26,18 @@
   const buyShuffleBtn = document.getElementById('buyShuffleBtn');
   const buyProBtn = document.getElementById('buyProBtn');
 
-  // Payment Link configuration (Stripe / Lemon Squeezy URLs to be plugged in)
+  // Payment Link configuration (Stripe live payment links)
   const STRIPE_LINKS = {
-    shuffle: 'https://buy.stripe.com/test_shuffle',
-    pro: 'https://buy.stripe.com/test_pro'
+    shuffle: 'https://buy.stripe.com/dRmfZh3T0b305Pm6a4bwk02',
+    pro: 'https://buy.stripe.com/dRm14n89g1sq7Xu1TObwk01'
   };
 
-  buyShuffleBtn.onclick = (e) => {
-    if (STRIPE_LINKS.shuffle.includes('test_')) {
-      e.preventDefault();
-      alert('⚡ Radio Anarchy Pro: Connecting to live Stripe checkout shortly!\n\nPink is finalizing the payment link. Check back in a few minutes or join our Discord!');
-    }
+  buyShuffleBtn.onclick = () => {
+    window.open(STRIPE_LINKS.shuffle, '_blank');
   };
 
-  buyProBtn.onclick = (e) => {
-    if (STRIPE_LINKS.pro.includes('test_')) {
-      e.preventDefault();
-      alert('⚡ Radio Anarchy Pro: Connecting to live Stripe checkout shortly!\n\nPink is finalizing the payment link. Check back in a few minutes or join our Discord!');
-    }
+  buyProBtn.onclick = () => {
+    window.open(STRIPE_LINKS.pro, '_blank');
   };
 
   // Demo audio preview

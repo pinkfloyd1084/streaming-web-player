@@ -339,7 +339,7 @@ async def handle_subscription_webhook(request: Request):
         customer_name = obj.get("customer_details", {}).get("name") or obj.get("user_name") or "Radio Anarchy Subscriber"
 
         new_token = generate_access_token(tier="ad-free", owner=customer_name, email=customer_email)
-        obs_player_url = f"https://radio.radioanarchy.gg/?token={new_token}"
+        obs_player_url = f"https://radio.radioanarchy.gg:8205/?token={new_token}"
 
         print(f"[SUBSCRIPTION ACTIVATED] Token: {new_token} for {customer_email}")
 
@@ -424,7 +424,7 @@ async def lookup_token(request: Request):
                 "found": True,
                 "token": t_key,
                 "tier": t_val.get("tier", "pro"),
-                "obs_url": f"https://radio.radioanarchy.gg/?token={t_key}"
+                "obs_url": f"https://radio.radioanarchy.gg:8205/?token={t_key}"
             }
 
     return {"found": False, "message": "No active subscription found for this email address."}
