@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADIO ANARCHY // OBS STREAM PLAYER</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="crt-overlay"></div>
+  <div class="synth-grid"></div>
+
+  <!-- Main Broadcast HUD -->
+  <main class="player-container" id="playerContainer">
+    <!-- Header HUD -->
+    <header class="hud-header">
+      <div class="brand">
+        <span class="glitch" data-text="RADIO ANARCHY">RADIO ANARCHY</span>
+        <span class="freq-tag">84.8 FM // STREAMWAVE</span>
+      </div>
+      <div class="broadcast-status">
+        <span class="live-led active"></span>
+        <span class="live-text">ON AIR</span>
+      </div>
+    </header>
+
+    <!-- Channel Selector Rack -->
+    <nav class="channel-rack">
+      <div class="rack-label">GENRE SELECTOR // CHANNELS</div>
+      <div class="channel-buttons" id="channelList">
+        <!-- Dynamically injected from API -->
+      </div>
+    </nav>
+
+    <!-- Center Display Unit -->
+    <section class="display-unit">
+      <!-- Now Playing Marquee Crawl -->
+      <div class="marquee-wrapper">
+        <div class="marquee-track" id="marqueeTrack">
+          <span id="nowPlayingText">CONNECTING TO RADIO ANARCHY BROADCAST...</span>
+        </div>
+      </div>
+
+      <!-- Frequency Equalizer Visualizer -->
+      <div class="equalizer-display" id="equalizer">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+
+      <!-- Playback Time & Channel Meta -->
+      <div class="meta-row">
+        <div class="channel-badge" id="currentChannelBadge">CH: --</div>
+        <div class="timer" id="timeDisplay">00:00 / 00:00</div>
+        <div class="quality-badge">256 KBPS // LOSSLESS</div>
+      </div>
+    </section>
+
+    <!-- Controls & Mixing Console -->
+    <footer class="console-controls">
+      <div class="buttons-group">
+        <button id="playBtn" class="synth-btn action-btn">
+          <span class="btn-icon" id="playIcon">▶</span>
+          <span id="playLabel">PLAY</span>
+        </button>
+        <button id="nextBtn" class="synth-btn">
+          <span class="btn-icon">⏭</span>
+          <span>SKIP</span>
+        </button>
+      </div>
+
+      <div class="volume-module">
+        <label for="volumeSlider">MASTER VOL</label>
+        <input type="range" id="volumeSlider" min="0" max="100" value="70">
+        <span id="volumePercent">70%</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Autoplay Bypass Interaction Banner (auto-hides in OBS) -->
+  <div id="obsBypassBanner" class="bypass-banner">
+    <div class="banner-content">
+      <div class="neon-pulse">⚡ OBS AUDIO LOCK DETECTED ⚡</div>
+      <p>CLICK ANYWHERE OR INTERACT TO ENGAGE BROADCAST</p>
+    </div>
+  </div>
+
+  <!-- Dual-Deck Audio Engine (Crossfading) -->
+  <audio id="deckA" preload="auto"></audio>
+  <audio id="deckB" preload="auto"></audio>
+
+  <script src="player.js?v=2.1"></script>
+</body>
+</html>

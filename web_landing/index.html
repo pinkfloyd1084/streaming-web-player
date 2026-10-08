@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RADIO ANARCHY // Commercial Stream Audio & OBS Music Engine</title>
+  <link rel="stylesheet" href="/landing/style.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="crt-overlay"></div>
+  <div class="synth-grid"></div>
+
+  <!-- Main Container -->
+  <div class="page-wrap">
+    
+    <!-- Top Navbar -->
+    <header class="navbar">
+      <div class="brand-group">
+        <a href="https://radioanarchy.gg" class="brand-link">
+          <span class="glitch-text" data-text="RADIO ANARCHY">RADIO ANARCHY</span>
+        </a>
+        <span class="badge-pill">COMMERCIAL AUDIO ENGINE</span>
+      </div>
+      <div class="nav-right">
+        <span class="live-led"></span>
+        <span class="status-tag">BROADCAST NETWORK ONLINE</span>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-tag">// ZERO DMCA STRIKES. ZERO MUTED VODS.</div>
+      <h1 class="hero-title">NEXT-GEN BROADCAST AUDIO<br><span class="neon-highlight">BUILT DIRECTLY FOR OBS</span></h1>
+      <p class="hero-subtitle">
+        Elevate your Twitch, YouTube, Kick, or Tabletop Gaming streams with studio-grade, 
+        100% royalty-free background audio. No browser pop-ups, no ads, and zero cloud lag.
+      </p>
+
+      <!-- Live Demo Player Widget -->
+      <div class="demo-card">
+        <div class="demo-header">
+          <span class="demo-led"></span>
+          <span class="demo-title">TEST LIVE BROADCAST FEED</span>
+          <span class="demo-tag">LOSSLESS 256KBPS</span>
+        </div>
+        <div class="demo-body">
+          <div class="demo-track-info">
+            <span id="demoTrackTitle">CLICK PREVIEW TO TUNE IN // 10 CHANNELS AVAILABLE</span>
+          </div>
+          <div class="demo-controls">
+            <button id="demoPlayBtn" class="synth-btn">
+              <span id="demoPlayIcon">▶</span>
+              <span id="demoPlayLabel">PREVIEW AUDIO</span>
+            </button>
+            <div class="demo-vol">
+              <span>VOL</span>
+              <input type="range" id="demoVolume" min="0" max="100" value="75">
+            </div>
+          </div>
+        </div>
+        <audio id="demoAudio" preload="none"></audio>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+      <div class="section-badge">SELECT YOUR BROADCAST TIER</div>
+      <h2 class="section-heading">CHOOSE YOUR ACCESS PASS</h2>
+
+      <div class="pricing-grid">
+        
+        <!-- Tier 1: $5.99 Shuffle -->
+        <div class="pricing-card">
+          <div class="card-badge">ENTRY LEVEL</div>
+          <h3 class="tier-name">ANARCHY SHUFFLE</h3>
+          <div class="price-row">
+            <span class="price-num">$5.99</span>
+            <span class="price-period">/ MONTH</span>
+          </div>
+          <p class="tier-desc">Continuous high-energy smart shuffle across all genres. Ideal for casual streamers and background gaming.</p>
+          
+          <ul class="perk-list">
+            <li>✔ 100% Commercial Clearance & DMCA Safe</li>
+            <li>✔ Continuous All-Genre Automated Shuffle</li>
+            <li>✔ Zero Dead Air & Studio Preloading</li>
+            <li>✔ 1 Personal OBS Browser Source Link</li>
+            <li>✔ Ad-Free & Interrupt-Free 24/7</li>
+            <li class="muted-perk">✖ Manual Channel Switching</li>
+            <li class="muted-perk">✖ Transparent HUD Overlay Mode</li>
+          </ul>
+
+          <a href="#checkout-shuffle" id="buyShuffleBtn" class="checkout-btn btn-secondary">
+            LOCK IN SHUFFLE PASS
+          </a>
+        </div>
+
+        <!-- Tier 2: $10.99 Pro Broadcaster -->
+        <div class="pricing-card featured-card">
+          <div class="popular-ribbon">MOST POPULAR</div>
+          <div class="card-badge cyan">PRO SUITE</div>
+          <h3 class="tier-name neon-cyan-text">PRO BROADCASTER</h3>
+          <div class="price-row">
+            <span class="price-num cyan-glow">$10.99</span>
+            <span class="price-period">/ MONTH</span>
+          </div>
+          <p class="tier-desc">Full 10-channel on-demand studio suite. Switch vibes live on stream, skip tracks, and customize your OBS HUD.</p>
+          
+          <ul class="perk-list">
+            <li>✔ <strong>10 Selectable Genre Channels</strong> (Synth, Lofi, EDM, D&D)</li>
+            <li>✔ <strong>Studio Dual-Deck Crossfading</strong> (Gapless Mixing)</li>
+            <li>✔ <strong>On-Demand Track Skip & Live Controls</strong></li>
+            <li>✔ <strong>Transparent OBS HUD Mode</strong> (Zero Backdrop)</li>
+            <li>✔ 100% Commercial Clearance Certificate</li>
+            <li>✔ Priority DMCA Whitelist Protection</li>
+            <li>✔ Immediate Token Delivery & Multi-Rig Access</li>
+          </ul>
+
+          <a href="#checkout-pro" id="buyProBtn" class="checkout-btn btn-primary">
+            UNLOCK PRO BROADCASTER
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Token Recovery / Login Section -->
+    <section class="recovery-section">
+      <div class="recovery-box">
+        <div class="recovery-icon">🔑</div>
+        <div class="recovery-content">
+          <h3>ALREADY SUBSCRIBED? RETRIEVE YOUR OBS LINK</h3>
+          <p>Enter the email address tied to your subscription to recover your active token and OBS Browser Source URL.</p>
+          <form id="tokenLookupForm" class="lookup-form">
+            <input type="email" id="lookupEmail" placeholder="your-email@domain.com" required>
+            <button type="submit" class="lookup-btn">RECOVER ACCESS</button>
+          </form>
+          <div id="lookupResult" class="lookup-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OBS Setup Quick-Guide -->
+    <section class="guide-section">
+      <h3 class="guide-heading">// 3-STEP ZERO-CONFIG OBS INTEGRATION</h3>
+      <div class="guide-steps">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h4>SUBSCRIBE & GET LINK</h4>
+          <p>Pick your tier. Your personal authenticated OBS Browser URL is generated instantly.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h4>ADD OBS BROWSER SOURCE</h4>
+          <p>In OBS Studio, click <strong>+</strong> &rarr; <strong>Browser</strong> &rarr; Paste your personal Radio Anarchy link.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h4>GO LIVE WITH CONFIDENCE</h4>
+          <p>Music starts looping immediately when you open OBS. No muted Twitch VODs ever again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-left">
+        <span>&copy; 2026 RADIO ANARCHY // POWERED BY 2 GBPS SYMMETRIC BARE METAL</span>
+      </div>
+      <div class="footer-right">
+        <a href="https://radioanarchy.gg">COMMUNITY HUB</a>
+        <a href="https://discord.gg" target="_blank">DISCORD</a>
+        <a href="mailto:pinkfloyd@radioanarchy.gg">SUPPORT</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/landing/landing.js?v=2"></script>
+</body>
+</html>

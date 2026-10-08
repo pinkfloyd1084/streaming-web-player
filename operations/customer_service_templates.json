@@ -1,0 +1,20 @@
+{
+  "templates": {
+    "token_recovery": {
+      "subject": "Radio Anarchy // Your Access Token & OBS Stream Link Recovery",
+      "body": "Hey {name},\n\nWe found your active subscription! Here are your credentials:\n\nAccess Token: {token}\nPersonal OBS Link: https://radio.radioanarchy.gg/?token={token}\n\nTo hook it into OBS:\n1. Add a Browser Source.\n2. Paste your Personal OBS Link.\n3. Width: 680, Height: 480.\n4. Check 'Control audio via OBS' to get a dedicated mixer fader.\n\nLet us know if you need anything else!\n-- Gumbus the Cat, Radio Anarchy Operations"
+    },
+    "obs_audio_monitoring_help": {
+      "subject": "Radio Anarchy Support // OBS Browser Source Audio Setup",
+      "body": "Hey {name},\n\nIf you see the player playing but don't hear sound in your headphones:\n\n1. In OBS, right-click the Browser Source -> Properties.\n2. Ensure 'Control audio via OBS' is CHECKED.\n3. In your OBS Audio Mixer dock, click the gear/three dots next to 'Radio Anarchy' -> 'Advanced Audio Properties'.\n4. Find the Radio Anarchy source and change 'Audio Monitoring' from 'Monitor Off' to 'Monitor and Output' (this sends audio to both your headphones and your stream!).\n\nYou should be rockin' immediately after that!\n-- Gumbus the Cat"
+    },
+    "dmca_clearance_proof": {
+      "subject": "Radio Anarchy // Commercial Clearance & DMCA Whitelist Statement",
+      "body": "Hey {name},\n\nAll music streamed through Radio Anarchy is 100% royalty-free and commercially licensed for Twitch, YouTube, Kick, and podcast live broadcasting.\n\nIf you ever receive an automated claim or Content ID notification:\n1. Dispute the claim with the reason: 'Commercially cleared license via Radio Anarchy Streaming (Order ref: {token})'.\n2. The tracks are pre-whitelisted and claims are automatically released.\n\nKeep streaming loud and clear!\n-- Radio Anarchy Legal & Operations"
+    },
+    "genre_request": {
+      "subject": "Radio Anarchy // Thanks for your music & channel suggestion!",
+      "body": "Hey {name},\n\nWe love hearing from our community! Your suggestion for {genre} has been logged in our sound engineering queue.\n\nOur team is curating new cleared tracks weekly, and we will notify all active subscribers when new channel presets drop.\n\nStay tuned!\n-- Radio Anarchy Operations"
+    }
+  }
+}

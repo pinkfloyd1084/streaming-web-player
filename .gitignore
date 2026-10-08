@@ -1,0 +1,41 @@
+# Radio Anarchy Music Player - .gitignore
+
+# Audio media files (do not commit 1GB+ binaries to Git)
+*.mp3
+*.wav
+*.ogg
+*.flac
+*.exe
+
+# Album media directories
+Arcade/
+Bounce/
+Cracked/
+Ghost/
+Gold/
+Groove/
+Ignition/
+Low-key/
+Pixel/
+Supreme/
+
+# Sensitive token databases & environments
+server/tokens.json
+.env
+*.env
+*.key
+*.pem
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Cloudflare tunnel credentials
+tunnel/*.json
+
+# Logs
+*.log
+operations/monitor.log
