@@ -77,16 +77,80 @@
 
   function updateAuthUI() {
     const session = getSavedSession();
+    const streamerHudCard = document.getElementById('streamerHudCard');
+    const hudOwnerGreeting = document.getElementById('hudOwnerGreeting');
+    const hudTierBadge = document.getElementById('hudTierBadge');
+    const hudObsUrlInput = document.getElementById('hudObsUrlInput');
+    const navUserGreeting = document.getElementById('navUserGreeting');
+
     if (session && session.token) {
       if (loggedOutActions) loggedOutActions.style.display = 'none';
       if (loggedInActions) loggedInActions.style.display = 'flex';
-      if (userGreeting) {
-        userGreeting.textContent = `${(session.owner || 'STREAMER').toUpperCase()} (${(session.tier || 'PRO').toUpperCase()})`;
+      if (navUserGreeting) {
+        navUserGreeting.textContent = `${(session.owner || 'STREAMER').toUpperCase()} (${(session.tier || 'PRO').toUpperCase()})`;
+      }
+      if (streamerHudCard) {
+        streamerHudCard.style.display = 'flex';
+      }
+      if (hudOwnerGreeting) {
+        hudOwnerGreeting.textContent = `Welcome back, ${session.owner || 'Streamer'}!`;
+      }
+      if (hudTierBadge) {
+        hudTierBadge.textContent = `${(session.tier || 'PRO').toUpperCase()} BROADCASTER // ACTIVE`;
+      }
+      if (hudObsUrlInput) {
+        const obsUrl = session.obs_url || `${API_BASE}/player/?token=${session.token}`;
+        hudObsUrlInput.value = obsUrl;
       }
     } else {
       if (loggedOutActions) loggedOutActions.style.display = 'flex';
       if (loggedInActions) loggedInActions.style.display = 'none';
+      if (streamerHudCard) streamerHudCard.style.display = 'none';
     }
+  }
+
+  // Streamer HUD button bindings
+  const hudCopyBtn = document.getElementById('hudCopyBtn');
+  const hudLaunchBtn = document.getElementById('hudLaunchBtn');
+  const hudSignOutBtn = document.getElementById('hudSignOutBtn');
+  const signOutBtnNav = document.getElementById('signOutBtnNav');
+
+  if (hudCopyBtn) {
+    hudCopyBtn.onclick = () => {
+      const hudObsUrlInput = document.getElementById('hudObsUrlInput');
+      const session = getSavedSession();
+      const urlToCopy = (session && session.obs_url) ? session.obs_url : (hudObsUrlInput ? hudObsUrlInput.value : `${API_BASE}/player/`);
+      navigator.clipboard.writeText(urlToCopy).then(() => {
+        const textSpan = document.getElementById('hudCopyText');
+        if (textSpan) {
+          textSpan.textContent = 'COPIED TO CLIPBOARD!';
+          setTimeout(() => { textSpan.textContent = 'COPY OBS URL'; }, 2500);
+        }
+      });
+    };
+  }
+
+  if (hudLaunchBtn) {
+    hudLaunchBtn.onclick = () => {
+      const hudObsUrlInput = document.getElementById('hudObsUrlInput');
+      const session = getSavedSession();
+      const obsUrl = (session && session.obs_url) ? session.obs_url : (hudObsUrlInput ? hudObsUrlInput.value : `${API_BASE}/player/`);
+      window.open(obsUrl, '_blank');
+    };
+  }
+
+  if (hudSignOutBtn) {
+    hudSignOutBtn.onclick = () => {
+      clearSession();
+      updateAuthUI();
+    };
+  }
+
+  if (signOutBtnNav) {
+    signOutBtnNav.onclick = () => {
+      clearSession();
+      updateAuthUI();
+    };
   }
 
   // Modal Open/Close handlers
