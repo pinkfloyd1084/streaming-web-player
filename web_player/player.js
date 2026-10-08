@@ -23,7 +23,7 @@
   // Base API configuration
   const API_BASE = window.location.origin.includes('http') && !window.location.origin.startsWith('file:')
     ? window.location.origin
-    : 'http://192.168.0.229:8205';
+    : 'https://radio.radioanarchy.gg:8205';
 
   // DOM Elements
   const deckA = document.getElementById('deckA');

@@ -7,7 +7,7 @@
 
   const API_BASE = window.location.origin.startsWith('http')
     ? window.location.origin
-    : 'http://192.168.0.229:8205';
+    : 'https://radio.radioanarchy.gg:8205';
 
   const DEMO_TOKEN = 'RA-MASTER-DEV-2026';
 
