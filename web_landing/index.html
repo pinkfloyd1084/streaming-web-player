@@ -17,14 +17,25 @@
     <!-- Top Navbar -->
     <header class="navbar">
       <div class="brand-group">
-        <a href="https://radioanarchy.gg" class="brand-link">
-          <span class="glitch-text" data-text="RADIO ANARCHY">RADIO ANARCHY</span>
+        <a href="https://radioanarchy.gg" class="brand-link" title="Radio Anarchy">
+          <img src="/images/RAlogo.png" alt="Radio Anarchy" class="brand-logo" />
         </a>
         <span class="badge-pill">COMMERCIAL AUDIO ENGINE</span>
       </div>
       <div class="nav-right">
-        <span class="live-led"></span>
-        <span class="status-tag">BROADCAST NETWORK ONLINE</span>
+        <div class="nav-actions" id="loggedOutActions">
+          <button class="nav-btn nav-btn-sponsor" id="openSponsorModalBtn">⚡ REDEEM SPONSOR CODE</button>
+          <button class="nav-btn nav-btn-signin" id="openSignInModalBtn">🔑 SIGN IN / OBS LINK</button>
+        </div>
+        <div class="user-status-bar" id="loggedInActions">
+          <div class="user-badge">
+            <span class="live-led"></span>
+            <span id="userGreeting">STREAMER (PRO)</span>
+          </div>
+          <button class="nav-btn nav-btn-launch" id="launchObsBtn">▶ LAUNCH PLAYER</button>
+          <button class="nav-btn nav-btn-signin" id="copyObsLinkBtn">📋 COPY OBS LINK</button>
+          <button class="nav-btn nav-btn-signout" id="signOutBtn">SIGN OUT</button>
+        </div>
       </div>
     </header>
 
@@ -176,6 +187,56 @@
 
   </div>
 
-  <script src="/landing/landing.js?v=2"></script>
+  <!-- Sign In Modal -->
+  <div class="modal-overlay" id="signInModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeSignInModal">&times;</button>
+      <h3 class="modal-title">🔑 SUBSCRIBER SIGN IN</h3>
+      <p class="modal-subtitle">Enter your subscriber token or the email address associated with your Stripe subscription.</p>
+      
+      <div class="modal-input-group">
+        <label for="authIdentifier">SUBSCRIBER TOKEN OR EMAIL</label>
+        <input type="text" id="authIdentifier" class="modal-input" placeholder="e.g. RA-SUB-XXXXXX or you@twitch.tv" autocomplete="off" />
+      </div>
+
+      <div class="modal-msg" id="signInMsg"></div>
+
+      <button id="submitSignInBtn" class="synth-btn" style="width: 100%; justify-content: center;">
+        AUTHENTICATE & GET OBS LINK
+      </button>
+    </div>
+  </div>
+
+  <!-- Sponsor VIP Redemption Modal -->
+  <div class="modal-overlay" id="sponsorModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeSponsorModal">&times;</button>
+      <h3 class="modal-title" style="color: var(--neon-yellow);">⚡ SPONSOR VIP PASS</h3>
+      <p class="modal-subtitle">Official sponsor or partner? Enter your exclusive code below for lifetime unlocked Pro access.</p>
+      
+      <div class="modal-input-group">
+        <label for="sponsorCode">SPONSOR / PROMO CODE</label>
+        <input type="text" id="sponsorCode" class="modal-input" placeholder="Enter VIP Sponsor Code" autocomplete="off" />
+      </div>
+
+      <div class="modal-input-group">
+        <label for="sponsorName">CREATOR / CHANNEL NAME</label>
+        <input type="text" id="sponsorName" class="modal-input" placeholder="e.g. Pink Floyd Gaming" />
+      </div>
+
+      <div class="modal-input-group">
+        <label for="sponsorEmail">EMAIL ADDRESS</label>
+        <input type="email" id="sponsorEmail" class="modal-input" placeholder="your@email.com" />
+      </div>
+
+      <div class="modal-msg" id="sponsorMsg"></div>
+
+      <button id="submitSponsorBtn" class="synth-btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, var(--neon-yellow), #ff6600); color: #0d001a;">
+        CLAIM LIFETIME VIP PASS
+      </button>
+    </div>
+  </div>
+
+  <script src="/landing.js?v=3"></script>
 </body>
 </html>

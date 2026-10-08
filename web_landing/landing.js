@@ -26,6 +26,222 @@
   const buyShuffleBtn = document.getElementById('buyShuffleBtn');
   const buyProBtn = document.getElementById('buyProBtn');
 
+  // Nav & Auth Elements
+  const loggedOutActions = document.getElementById('loggedOutActions');
+  const loggedInActions = document.getElementById('loggedInActions');
+  const userGreeting = document.getElementById('userGreeting');
+  const launchObsBtn = document.getElementById('launchObsBtn');
+  const copyObsLinkBtn = document.getElementById('copyObsLinkBtn');
+  const signOutBtn = document.getElementById('signOutBtn');
+
+  // Modals
+  const signInModal = document.getElementById('signInModal');
+  const openSignInModalBtn = document.getElementById('openSignInModalBtn');
+  const closeSignInModal = document.getElementById('closeSignInModal');
+  const authIdentifier = document.getElementById('authIdentifier');
+  const submitSignInBtn = document.getElementById('submitSignInBtn');
+  const signInMsg = document.getElementById('signInMsg');
+
+  const sponsorModal = document.getElementById('sponsorModal');
+  const openSponsorModalBtn = document.getElementById('openSponsorModalBtn');
+  const closeSponsorModal = document.getElementById('closeSponsorModal');
+  const sponsorCode = document.getElementById('sponsorCode');
+  const sponsorName = document.getElementById('sponsorName');
+  const sponsorEmail = document.getElementById('sponsorEmail');
+  const submitSponsorBtn = document.getElementById('submitSponsorBtn');
+  const sponsorMsg = document.getElementById('sponsorMsg');
+
+  // Session Persistence
+  function getSavedSession() {
+    try {
+      const data = localStorage.getItem('ra_session');
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveSession(session) {
+    try {
+      localStorage.setItem('ra_session', JSON.stringify(session));
+    } catch (e) {
+      console.warn('Storage save error:', e);
+    }
+  }
+
+  function clearSession() {
+    try {
+      localStorage.removeItem('ra_session');
+    } catch (e) {}
+  }
+
+  function updateAuthUI() {
+    const session = getSavedSession();
+    if (session && session.token) {
+      if (loggedOutActions) loggedOutActions.style.display = 'none';
+      if (loggedInActions) loggedInActions.style.display = 'flex';
+      if (userGreeting) {
+        userGreeting.textContent = `${(session.owner || 'STREAMER').toUpperCase()} (${(session.tier || 'PRO').toUpperCase()})`;
+      }
+    } else {
+      if (loggedOutActions) loggedOutActions.style.display = 'flex';
+      if (loggedInActions) loggedInActions.style.display = 'none';
+    }
+  }
+
+  // Modal Open/Close handlers
+  if (openSignInModalBtn) {
+    openSignInModalBtn.onclick = () => {
+      signInModal.classList.add('active');
+      signInMsg.style.display = 'none';
+      if (authIdentifier) authIdentifier.focus();
+    };
+  }
+
+  if (closeSignInModal) {
+    closeSignInModal.onclick = () => signInModal.classList.remove('active');
+  }
+
+  if (openSponsorModalBtn) {
+    openSponsorModalBtn.onclick = () => {
+      sponsorModal.classList.add('active');
+      sponsorMsg.style.display = 'none';
+      if (sponsorCode) sponsorCode.focus();
+    };
+  }
+
+  if (closeSponsorModal) {
+    closeSponsorModal.onclick = () => sponsorModal.classList.remove('active');
+  }
+
+  window.onclick = (e) => {
+    if (e.target === signInModal) signInModal.classList.remove('active');
+    if (e.target === sponsorModal) sponsorModal.classList.remove('active');
+  };
+
+  // Sign In Handler
+  if (submitSignInBtn) {
+    submitSignInBtn.onclick = async () => {
+      const idVal = authIdentifier.value.trim();
+      if (!idVal) {
+        signInMsg.className = 'modal-msg error';
+        signInMsg.textContent = 'Please enter your token or email address.';
+        return;
+      }
+
+      submitSignInBtn.textContent = 'AUTHENTICATING...';
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier: idVal })
+        });
+        const data = await res.json();
+        if (res.ok && data.valid) {
+          saveSession(data);
+          signInMsg.className = 'modal-msg success';
+          signInMsg.textContent = `✔ Welcome back, ${data.owner}! Session remembered.`;
+          updateAuthUI();
+          setTimeout(() => {
+            signInModal.classList.remove('active');
+            submitSignInBtn.textContent = 'AUTHENTICATE & GET OBS LINK';
+          }, 1200);
+        } else {
+          signInMsg.className = 'modal-msg error';
+          signInMsg.textContent = `✖ ${data.message || 'No active subscription found.'}`;
+          submitSignInBtn.textContent = 'AUTHENTICATE & GET OBS LINK';
+        }
+      } catch (err) {
+        signInMsg.className = 'modal-msg error';
+        signInMsg.textContent = '✖ Could not reach authentication server.';
+        submitSignInBtn.textContent = 'AUTHENTICATE & GET OBS LINK';
+      }
+    };
+  }
+
+  // Sponsor Code Redemption Handler
+  if (submitSponsorBtn) {
+    submitSponsorBtn.onclick = async () => {
+      const codeVal = sponsorCode.value.trim();
+      const nameVal = sponsorName.value.trim();
+      const emailVal = sponsorEmail.value.trim();
+
+      if (!codeVal) {
+        sponsorMsg.className = 'modal-msg error';
+        sponsorMsg.textContent = 'Please enter your Sponsor VIP code.';
+        return;
+      }
+
+      submitSponsorBtn.textContent = 'VERIFYING VIP CODE...';
+      try {
+        const res = await fetch(`${API_BASE}/api/sponsor/redeem`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: codeVal, name: nameVal, email: emailVal })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          saveSession(data);
+          sponsorMsg.className = 'modal-msg success';
+          sponsorMsg.innerHTML = `
+            ✔ VIP UNLOCKED! Welcome ${data.owner}!<br>
+            <strong>Your OBS Token:</strong> ${data.token}<br>
+            <span style="font-size:0.75rem; word-break:break-all;">OBS URL: ${data.obs_url}</span>
+          `;
+          updateAuthUI();
+          setTimeout(() => {
+            sponsorModal.classList.remove('active');
+            submitSponsorBtn.textContent = 'CLAIM LIFETIME VIP PASS';
+          }, 3000);
+        } else {
+          sponsorMsg.className = 'modal-msg error';
+          sponsorMsg.textContent = `✖ ${data.detail || 'Invalid sponsor code.'}`;
+          submitSponsorBtn.textContent = 'CLAIM LIFETIME VIP PASS';
+        }
+      } catch (err) {
+        sponsorMsg.className = 'modal-msg error';
+        sponsorMsg.textContent = '✖ Error contacting authentication server.';
+        submitSponsorBtn.textContent = 'CLAIM LIFETIME VIP PASS';
+      }
+    };
+  }
+
+  // Launch & Copy OBS Buttons
+  if (launchObsBtn) {
+    launchObsBtn.onclick = () => {
+      const session = getSavedSession();
+      if (session && session.obs_url) {
+        window.open(session.obs_url, '_blank');
+      } else {
+        window.open(`${API_BASE}/player/`, '_blank');
+      }
+    };
+  }
+
+  if (copyObsLinkBtn) {
+    copyObsLinkBtn.onclick = () => {
+      const session = getSavedSession();
+      const urlToCopy = session && session.obs_url ? session.obs_url : `${API_BASE}/player/`;
+      navigator.clipboard.writeText(urlToCopy).then(() => {
+        const originalText = copyObsLinkBtn.textContent;
+        copyObsLinkBtn.textContent = '✔ COPIED TO CLIPBOARD!';
+        setTimeout(() => {
+          copyObsLinkBtn.textContent = originalText;
+        }, 2000);
+      });
+    };
+  }
+
+  if (signOutBtn) {
+    signOutBtn.onclick = () => {
+      clearSession();
+      updateAuthUI();
+    };
+  }
+
+  // Initialize Auth State on Page Load
+  updateAuthUI();
+
   // Payment Link configuration (Stripe live payment links)
   const STRIPE_LINKS = {
     shuffle: 'https://buy.stripe.com/dRmfZh3T0b305Pm6a4bwk02',

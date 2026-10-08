@@ -430,6 +430,93 @@ async def lookup_token(request: Request):
     return {"found": False, "message": "No active subscription found for this email address."}
 
 
+@app.post("/api/sponsor/redeem")
+async def redeem_sponsor_code(request: Request):
+    """Allows sponsors to redeem code RAStreamsMusic2026 for a lifetime free Pro pass."""
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+
+    code = body.get("code", "").strip()
+    name = body.get("name", "").strip() or "Sponsor Partner"
+    email = body.get("email", "").strip().lower() or "sponsor@radioanarchy.gg"
+
+    if code != "RAStreamsMusic2026":
+        raise HTTPException(status_code=400, detail="Invalid sponsor code.")
+
+    # Check if this email or sponsor already has an active token
+    data = load_tokens_data()
+    for t_key, t_val in data.get("tokens", {}).items():
+        if (t_val.get("email", "").strip().lower() == email or t_key == "RAStreamsMusic2026") and t_val.get("status") == "active":
+            return {
+                "success": True,
+                "token": t_key,
+                "tier": "pro",
+                "owner": t_val.get("owner", name),
+                "obs_url": f"https://radio.radioanarchy.gg:8205/?token={t_key}",
+                "message": "Sponsor VIP access confirmed!"
+            }
+
+    # Generate custom VIP sponsor token
+    new_token = f"RA-VIP-{secrets.token_hex(4).upper()}"
+    data.setdefault("tokens", {})[new_token] = {
+        "tier": "pro",
+        "owner": name,
+        "email": email,
+        "status": "active",
+        "sponsor": True,
+        "created_at": datetime.now().isoformat(),
+        "expires": "never"
+    }
+    save_tokens_data(data)
+
+    return {
+        "success": True,
+        "token": new_token,
+        "tier": "pro",
+        "owner": name,
+        "obs_url": f"https://radio.radioanarchy.gg:8205/?token={new_token}",
+        "message": "Sponsor VIP access activated!"
+    }
+
+
+@app.post("/api/auth/verify")
+async def verify_auth(request: Request):
+    """Sign-in verification for subscribers/sponsors using email or token."""
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+
+    identifier = body.get("identifier", "").strip().lower()
+    if not identifier:
+        raise HTTPException(status_code=400, detail="Identifier is required")
+
+    data = load_tokens_data()
+    # Check by token key directly
+    for t_key, t_val in data.get("tokens", {}).items():
+        if (t_key.lower() == identifier or t_val.get("email", "").lower() == identifier) and t_val.get("status") == "active":
+            return {
+                "valid": True,
+                "token": t_key,
+                "owner": t_val.get("owner", "Subscriber"),
+                "email": t_val.get("email", ""),
+                "tier": t_val.get("tier", "pro"),
+                "obs_url": f"https://radio.radioanarchy.gg:8205/?token={t_key}"
+            }
+
+    return {"valid": False, "message": "No active account found for that token or email."}
+
+
+@app.get("/images/{filename}")
+def get_landing_image(filename: str):
+    img_path = LANDING_DIR / "images" / filename
+    if img_path.exists():
+        return FileResponse(path=str(img_path))
+    raise HTTPException(status_code=404, detail="Image not found")
+
+
 @app.get("/style.css")
 def get_root_style():
     return FileResponse(path=str(LANDING_DIR / "style.css"), media_type="text/css")

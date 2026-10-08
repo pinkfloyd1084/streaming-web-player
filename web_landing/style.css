@@ -88,6 +88,20 @@ body {
   text-decoration: none;
 }
 
+.brand-logo {
+  height: 52px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.6));
+  vertical-align: middle;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.brand-logo:hover {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.8));
+}
+
 .glitch-text {
   font-size: 1.6rem;
   font-weight: 900;
@@ -615,4 +629,176 @@ body {
   .lookup-form {
     flex-direction: column;
   }
+}
+
+/* Nav Actions & User Status */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-btn {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+.nav-btn-signin {
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--neon-cyan);
+}
+.nav-btn-signin:hover {
+  background: var(--neon-cyan);
+  color: #0d001a;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+.nav-btn-sponsor {
+  color: var(--neon-yellow);
+  background: rgba(255, 230, 0, 0.1);
+  border-color: var(--neon-yellow);
+}
+.nav-btn-sponsor:hover {
+  background: var(--neon-yellow);
+  color: #0d001a;
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.6);
+}
+.user-status-bar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 255, 102, 0.1);
+  border: 1px solid #00ff66;
+  color: #00ff66;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+.nav-btn-launch {
+  color: #fff;
+  background: linear-gradient(135deg, var(--neon-pink), #9900ff);
+  border: none;
+}
+.nav-btn-launch:hover {
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.7);
+  transform: translateY(-1px);
+}
+.nav-btn-signout {
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.nav-btn-signout:hover {
+  color: #fff;
+  border-color: var(--neon-pink);
+}
+
+/* Modals */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 0, 20, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-card {
+  background: #140827;
+  border: 2px solid var(--neon-cyan);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  padding: 32px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  color: var(--neon-pink);
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+.modal-subtitle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+.modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.modal-input-group label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+.modal-input {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: #fff;
+  font-family: var(--font-mono);
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  outline: none;
+}
+.modal-input:focus {
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 12px rgba(255, 0, 127, 0.4);
+}
+.modal-msg {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 10px;
+  border-radius: 4px;
+  display: none;
+}
+.modal-msg.success {
+  display: block;
+  background: rgba(0, 255, 102, 0.15);
+  color: #00ff66;
+  border: 1px solid #00ff66;
+}
+.modal-msg.error {
+  display: block;
+  background: rgba(255, 0, 127, 0.15);
+  color: var(--neon-pink);
+  border: 1px solid var(--neon-pink);
 }
