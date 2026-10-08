@@ -89,17 +89,17 @@ body {
 }
 
 .brand-logo {
-  height: 52px;
+  height: 36px;
   width: auto;
-  max-width: 220px;
+  max-width: 170px;
   object-fit: contain;
-  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.6));
+  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.5));
   vertical-align: middle;
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 .brand-logo:hover {
   transform: scale(1.03);
-  filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.8));
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.8));
 }
 
 .glitch-text {
@@ -635,42 +635,72 @@ body {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
+
 .nav-btn {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 1px;
-  padding: 8px 16px;
-  border-radius: 4px;
+  letter-spacing: 0.8px;
+  padding: 6px 14px;
+  border-radius: 20px;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border: 1px solid transparent;
+  gap: 6px;
+  backdrop-filter: blur(4px);
+  outline: none;
 }
+
+.nav-btn .btn-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
 .nav-btn-signin {
-  color: var(--neon-cyan);
-  background: rgba(0, 240, 255, 0.12);
-  border-color: var(--neon-cyan);
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.12);
 }
+
 .nav-btn-signin:hover {
-  background: var(--neon-cyan);
-  color: #0d001a;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  background: rgba(0, 240, 255, 0.22);
+  border-color: #00f0ff;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.55);
+  transform: translateY(-1px);
 }
+
 .nav-btn-sponsor {
-  color: var(--neon-yellow);
-  background: rgba(255, 230, 0, 0.1);
-  border-color: var(--neon-yellow);
+  color: #ffe600;
+  background: rgba(255, 230, 0, 0.08);
+  border: 1px solid rgba(255, 230, 0, 0.45);
+  box-shadow: 0 0 10px rgba(255, 230, 0, 0.12);
 }
+
 .nav-btn-sponsor:hover {
-  background: var(--neon-yellow);
-  color: #0d001a;
-  box-shadow: 0 0 15px rgba(255, 230, 0, 0.6);
+  background: rgba(255, 230, 0, 0.22);
+  border-color: #ffe600;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 230, 0, 0.55);
+  transform: translateY(-1px);
+}
+
+.demo-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.demo-hud-logo {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px var(--neon-pink));
 }
 .user-status-bar {
   display: none;

@@ -115,6 +115,15 @@ body.transparent .crt-overlay {
   flex-direction: column;
 }
 
+.player-hud-logo {
+  height: 32px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.6));
+  margin-bottom: 2px;
+}
+
 .glitch {
   font-size: 1.5rem;
   font-weight: 900;

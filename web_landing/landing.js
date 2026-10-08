@@ -260,6 +260,7 @@
   let isDemoPlaying = false;
   let demoTracks = [];
   let currentDemoIndex = 0;
+  const DEMO_PREVIEW_LIMIT = 90; // 1:30 max preview limit
 
   async function loadDemoFeed() {
     try {
@@ -268,7 +269,7 @@
         const data = await res.json();
         demoTracks = data.playlist || [];
         if (demoTracks.length > 0) {
-          demoTrackTitle.textContent = `PREVIEW: ${demoTracks[0].title.toUpperCase()} // READY TO PLAY`;
+          demoTrackTitle.textContent = `PREVIEW: ${demoTracks[0].title.toUpperCase()} // READY TO PLAY [1:30 DEMO]`;
         }
       }
     } catch (e) {
@@ -285,13 +286,15 @@
       demoPlayIcon.textContent = '▶';
       demoPlayLabel.textContent = 'PREVIEW AUDIO';
     } else {
+      if (demoAudio.currentTime >= DEMO_PREVIEW_LIMIT) {
+        demoAudio.currentTime = 0;
+      }
       if (!demoAudio.src) {
         const track = demoTracks[currentDemoIndex];
         const streamUrl = track.stream_url.startsWith('http')
           ? track.stream_url
           : `${API_BASE}${track.stream_url}`;
         demoAudio.src = streamUrl;
-        demoTrackTitle.textContent = `NOW STREAMING PREVIEW: ${track.title.toUpperCase()}`;
       }
       demoAudio.volume = parseFloat(demoVolume.value) / 100;
       demoAudio.play().then(() => {
@@ -303,6 +306,27 @@
       });
     }
   }
+
+  demoAudio.addEventListener('timeupdate', () => {
+    if (!isDemoPlaying) return;
+    const elapsed = Math.floor(demoAudio.currentTime);
+    const remaining = Math.max(0, DEMO_PREVIEW_LIMIT - elapsed);
+    const remMins = Math.floor(remaining / 60);
+    const remSecs = (remaining % 60).toString().padStart(2, '0');
+
+    if (demoAudio.currentTime >= DEMO_PREVIEW_LIMIT) {
+      demoAudio.pause();
+      demoAudio.currentTime = 0;
+      isDemoPlaying = false;
+      demoPlayIcon.textContent = '▶';
+      demoPlayLabel.textContent = 'REPLAY PREVIEW';
+      demoTrackTitle.innerHTML = '<span style="color: var(--neon-pink); font-weight: bold;">⚡ 1:30 PREVIEW TIME LIMIT REACHED // UNLOCK FULL UNLIMITED ACCESS BELOW</span>';
+    } else {
+      const track = demoTracks[currentDemoIndex];
+      const title = track ? track.title.toUpperCase() : 'BROADCAST AUDIO';
+      demoTrackTitle.innerHTML = `<span>PREVIEWING: ${title}</span> <span style="color: var(--neon-yellow); margin-left: 8px;">[${remMins}:${remSecs} LEFT]</span>`;
+    }
+  });
 
   demoPlayBtn.addEventListener('click', toggleDemoPlay);
 
